@@ -12,7 +12,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  final _string =
+      "Java, android, ios, get the same result by DES encryption and decryption.";
+  final _key = "u1BvOHzUOcklgNpn1MaWvdn9DT4LyzSX";
+  final _iv = "12345678";
+  String _encrypt = '';
+  String _decrypt = '';
 
   @override
   void initState() {
@@ -22,22 +27,13 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await FlutterDes.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+      _encrypt = await FlutterDes.encryptToHex(_string, _key, iv: _iv);
+      _decrypt = await FlutterDes.decryptFromHex(_encrypt, _key, iv: _iv);
+      setState(() {});
+    } catch (e) {
+      print(e);
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
   }
 
   @override
@@ -45,10 +41,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('DES example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Center(
+            child: Text(
+                'string = $_string\nkey = $_key\niv = $_iv\nencrypt = $_encrypt\ndecrypt = $_decrypt'),
+          ),
         ),
       ),
     );

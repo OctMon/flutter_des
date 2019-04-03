@@ -17,8 +17,8 @@ public class SwiftFlutterDesPlugin: NSObject, FlutterPlugin {
             return
         }
         let string = arguments[0] as? String ?? ""
-        let key = arguments[0] as? String ?? ""
-        let iv = arguments[0] as? String ?? ""
+        let key = arguments[1] as? String ?? ""
+        let iv = arguments[2] as? String ?? ""
         switch call.method {
         case "encrypt":
             encrypt(string: string, key: key, iv: iv, result: result)
@@ -31,13 +31,19 @@ public class SwiftFlutterDesPlugin: NSObject, FlutterPlugin {
     }
     
     func encrypt(string: String, key: String, iv: String, result: FlutterResult) {
-        let data = string.data(using: .utf8)?.crypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv)
-        result(data?.toHexString ?? nil)
+        guard let data = string.data(using: .utf8)?.crypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv) else {
+            result(nil)
+            return
+        }
+        result(data.toHexString)
     }
     
     func decrypt(string: String, key: String, iv: String, result: FlutterResult) {
-        let data = string.hexToData.crypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv)
-        result(data ?? nil)
+        guard let data = string.hexToData.crypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv) else {
+            result(nil)
+            return
+        }
+        result(String(data: data, encoding: .utf8) ?? nil)
     }
     
 }
