@@ -1,3 +1,5 @@
+![pub package](https://img.shields.io/pub/v/flutter_des.svg)
+
 # flutter_des
 
 Java, android, ios, get the same result by DES encryption and decryption.
