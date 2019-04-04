@@ -20,9 +20,9 @@ public class SwiftFlutterDesPlugin: NSObject, FlutterPlugin {
         let key = arguments[1] as? String ?? ""
         let iv = arguments[2] as? String ?? ""
         switch call.method {
-        case "encrypt":
+        case "encryptToHex":
             encrypt(string: string, key: key, iv: iv, result: result)
-        case "decrypt":
+        case "decryptFromHex":
             decrypt(string: string, key: key, iv: iv, result: result)
         default:
             result(nil)

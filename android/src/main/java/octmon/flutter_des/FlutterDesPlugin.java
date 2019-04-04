@@ -30,10 +30,10 @@ public class FlutterDesPlugin implements MethodCallHandler {
     String key = (String) arguments.get(1);
     String iv = (String) arguments.get(2);
     switch (call.method) {
-      case "encrypt":
+      case "encryptToHex":
         result.success(encrypt(string, key, iv));
         break;
-      case "decrypt":
+      case "decryptFromHex":
         result.success(decrypt(string, key, iv));
         break;
       default:

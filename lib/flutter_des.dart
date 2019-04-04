@@ -8,14 +8,14 @@ class FlutterDes {
   static Future<String> encryptToHex(String string, String key,
       {String iv = '01234567'}) async {
     final String crypt =
-        await _channel.invokeMethod('encrypt', [string, key, iv]);
+        await _channel.invokeMethod('encryptToHex', [string, key, iv]);
     return crypt;
   }
 
   static Future<String> decryptFromHex(String hex, String key,
       {String iv = '01234567'}) async {
     final String crypt =
-        await _channel.invokeMethod('decrypt', [hex, key, iv]);
+        await _channel.invokeMethod('decryptFromHex', [hex, key, iv]);
     return crypt;
   }
 }
