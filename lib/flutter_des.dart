@@ -7,6 +7,9 @@ class FlutterDes {
 
   static Future<String> encryptToHex(String string, String key,
       {String iv = '01234567'}) async {
+    if (string.isEmpty) {
+      return '';
+    }
     final String crypt =
         await _channel.invokeMethod('encryptToHex', [string, key, iv]);
     return crypt;
