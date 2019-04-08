@@ -26,19 +26,24 @@ public class FlutterDesPlugin implements MethodCallHandler {
   @Override
   public void onMethodCall(MethodCall call, Result result) {
     ArrayList arguments = (ArrayList) call.arguments;
-    String string = (String) arguments.get(0);
     String key = (String) arguments.get(1);
     String iv = (String) arguments.get(2);
     switch (call.method) {
-      case "encryptToHex":
-        result.success(encrypt(string, key, iv));
-        break;
-      case "decryptFromHex":
-        result.success(decrypt(string, key, iv));
-        break;
-      default:
-        result.notImplemented();
-        break;
+        case "encrypt":
+            result.success(encrypt((String) arguments.get(0), key, iv));
+            break;
+        case "encryptToHex":
+            result.success(encryptToHex((String) arguments.get(0), key, iv));
+            break;
+        case "decrypt":
+            result.success(decrypt((byte[]) arguments.get(0), key, iv));
+            break;
+        case "decryptFromHex":
+            result.success(decryptFromHex((String) arguments.get(0), key, iv));
+            break;
+        default:
+            result.notImplemented();
+            break;
     }
   }
 
@@ -47,15 +52,22 @@ public class FlutterDesPlugin implements MethodCallHandler {
   /**
    * 加密
    */
-  private static String encrypt(String originStr, String secretKey, String iv) {
-    return encode(secretKey, iv, originStr);
+  private static String encryptToHex(String originStr, String secretKey, String iv) {
+    return byte2hex(encrypt(originStr, secretKey, iv));
   }
 
   /**
    * 解密
    */
-  private static String decrypt(String encryptStr, String secretKey, String iv) {
-    return decode(secretKey, iv, encryptStr);
+  private static String decryptFromHex(String encryptHexStr, String secretKey, String iv) {
+    if(encryptHexStr == null || iv == null)
+      return null;
+    try {
+        return decrypt(hex2byte(encryptHexStr.getBytes()), secretKey, iv);
+    } catch (Exception e){
+      e.printStackTrace();
+      return "";
+    }
   }
 
   /**
@@ -66,8 +78,8 @@ public class FlutterDesPlugin implements MethodCallHandler {
    * @param iv  偏移量
    * @return 加密后的字节数组，一般结合Base64编码使用
    */
-  private static String encode(String key, String iv, String data) {
-    if(data == null || iv ==null)
+  private static byte[] encrypt(String data, String key, String iv) {
+    if(data == null || iv == null)
       return null;
     try{
       DESKeySpec dks = new DESKeySpec(key.getBytes());
@@ -77,11 +89,10 @@ public class FlutterDesPlugin implements MethodCallHandler {
       Cipher cipher = Cipher.getInstance(ALGORITHM_DES);
       AlgorithmParameterSpec paramSpec = new IvParameterSpec(iv.getBytes());
       cipher.init(Cipher.ENCRYPT_MODE, secretKey,paramSpec);
-      byte[] bytes = cipher.doFinal(data.getBytes());
-      return byte2hex(bytes);
+      return cipher.doFinal(data.getBytes());
     }catch(Exception e){
       e.printStackTrace();
-      return data;
+      return null;
     }
   }
 
@@ -93,7 +104,7 @@ public class FlutterDesPlugin implements MethodCallHandler {
    * @param iv  偏移量
    * @return 解密后的字节数组
    */
-  private static String decode(String key, String iv, String data) {
+  private static String decrypt(byte[] data, String key, String iv) {
     if(data == null || iv == null)
       return null;
     try {
@@ -104,7 +115,7 @@ public class FlutterDesPlugin implements MethodCallHandler {
       Cipher cipher = Cipher.getInstance(ALGORITHM_DES);
       AlgorithmParameterSpec paramSpec = new IvParameterSpec(iv.getBytes());
       cipher.init(Cipher.DECRYPT_MODE, secretKey, paramSpec);
-      return new String(cipher.doFinal(hex2byte(data.getBytes())));
+      return new String(cipher.doFinal(data));
     } catch (Exception e){
       e.printStackTrace();
       return "";

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter_des/flutter_des.dart';
 
@@ -15,8 +16,10 @@ class _MyAppState extends State<MyApp> {
       "Java, android, ios, get the same result by DES encryption and decryption.";
   final _key = "u1BvOHzUOcklgNpn1MaWvdn9DT4LyzSX";
   final _iv = "12345678";
-  String _encrypt = '';
-  String _decrypt = '';
+  Uint8List _encryptData;
+  String _decryptData;
+  String _encryptHex = '';
+  String _decryptHex = '';
 
   @override
   void initState() {
@@ -27,8 +30,10 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     try {
-      _encrypt = await FlutterDes.encryptToHex(_string, _key, iv: _iv);
-      _decrypt = await FlutterDes.decryptFromHex(_encrypt, _key, iv: _iv);
+      _encryptHex = await FlutterDes.encryptToHex(_string, _key, iv: _iv);
+      _encryptData = await FlutterDes.encrypt(_string, _key, iv: _iv);
+      _decryptHex = await FlutterDes.decryptFromHex(_encryptHex, _key, iv: _iv);
+      _decryptData = await FlutterDes.decrypt(_encryptData, _key, iv: _iv);
       setState(() {});
     } catch (e) {
       print(e);
@@ -46,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           padding: const EdgeInsets.all(15.0),
           child: Center(
             child: Text(
-                'string = $_string\nkey = $_key\niv = $_iv\nencrypt = $_encrypt\ndecrypt = $_decrypt'),
+                'string = $_string\nkey = $_key\niv = $_iv\nencryptData = $_encryptData\nencryptHex = $_encryptHex\ndecryptData = $_decryptData\ndecryptHex = $_decryptHex'),
           ),
         ),
       ),

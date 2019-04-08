@@ -16,34 +16,52 @@ public class SwiftFlutterDesPlugin: NSObject, FlutterPlugin {
             result(nil)
             return
         }
-        let string = arguments[0] as? String ?? ""
         let key = arguments[1] as? String ?? ""
         let iv = arguments[2] as? String ?? ""
         switch call.method {
+        case "encrypt":
+            encrypt(string: arguments[0] as? String ?? "", key: key, iv: iv, result: result)
         case "encryptToHex":
-            encrypt(string: string, key: key, iv: iv, result: result)
+            encryptToHex(string: arguments[0] as? String ?? "", key: key, iv: iv, result: result)
+        case "decrypt":
+            if let data = arguments[0] as? FlutterStandardTypedData {
+                decrypt(data: data.data, key: key, iv: iv, result: result)
+            } else {
+                result(nil)
+            }
         case "decryptFromHex":
-            decrypt(string: string, key: key, iv: iv, result: result)
+            decryptFromHex(string: arguments[0] as? String ?? "", key: key, iv: iv, result: result)
         default:
             result(nil)
             break
         }
     }
     
-    func encrypt(string: String, key: String, iv: String, result: FlutterResult) {
-        guard let data = string.data(using: .utf8)?.crypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv) else {
-            result(nil)
-            return
-        }
-        result(data.toHexString)
+    func encryptToHex(string: String, key: String, iv: String, result: FlutterResult) {
+        result(encrypt(string: string, key: key, iv: iv)?.toHexString)
     }
     
-    func decrypt(string: String, key: String, iv: String, result: FlutterResult) {
-        guard let data = string.hexToData.crypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv) else {
-            result(nil)
-            return
+    func encrypt(string: String, key: String, iv: String, result: FlutterResult) {
+        result(encrypt(string: string, key: key, iv: iv))
+    }
+    
+    func encrypt(string: String, key: String, iv: String) -> Data? {
+        return string.data(using: .utf8)?.crypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv)
+    }
+    
+    func decryptFromHex(string: String, key: String, iv: String, result: FlutterResult) {
+        result(decrypt(data: string.hexToData, key: key, iv: iv))
+    }
+    
+    func decrypt(data: Data, key: String, iv: String, result: FlutterResult) {
+       result(decrypt(data: data, key: key, iv: iv))
+    }
+    
+    func decrypt(data: Data, key: String, iv: String) -> String? {
+        guard let data = data.crypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv) else {
+            return nil
         }
-        result(String(data: data, encoding: .utf8) ?? nil)
+        return String(data: data, encoding: .utf8)
     }
     
 }
