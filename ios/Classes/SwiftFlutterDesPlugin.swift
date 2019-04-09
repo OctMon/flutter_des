@@ -69,7 +69,7 @@ public class SwiftFlutterDesPlugin: NSObject, FlutterPlugin {
 private extension Data {
     
     func crypt(operation: CCOperation, key: String, iv: String) -> Data? {
-        let algoritm = kCCAlgorithmDES
+        let algorithm = kCCAlgorithmDES
         let options = kCCOptionPKCS7Padding
         let keyData = [UInt8](key.data(using: .utf8) ?? Data())
         let ivData = [UInt8](iv.data(using: .utf8) ?? Data())
@@ -82,7 +82,7 @@ private extension Data {
         
         let cryptStatus = CCCrypt(
             CCOperation(operation), //加密(解密)模式 kCCEncrypt:加密, kCCDecrypt:解密
-            CCAlgorithm(algoritm),  //加密(解密)方式
+            CCAlgorithm(algorithm),  //加密(解密)方式
             CCOptions(options),     //填充算法
             keyData,                //密钥(超出密钥长度的部分将被忽略)
             keyLength,              //密钥长度
