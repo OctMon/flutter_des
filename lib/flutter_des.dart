@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-const String _iv = '';
+const String _iv = '01234567';
 
 class FlutterDes {
   static const MethodChannel _channel = const MethodChannel('flutter_des');
