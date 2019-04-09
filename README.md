@@ -6,10 +6,10 @@
 
 Java, android, ios, get the same result by DES encryption and decryption.
 
-<div align="center">
+<div >
   <p>
-    <img src="https://github.com/OctMon/flutter_des/blob/assets/android.png" width = 30% height = 30% />
-    <img src="https://github.com/OctMon/flutter_des/blob/assets/ios.png" width = 30% height = 30% />
+    <img src="https://github.com/OctMon/flutter_des/blob/assets/android.png?raw=true" width = 37% />
+    <img src="https://github.com/OctMon/flutter_des/blob/assets/ios.png?raw=true" width = 30.5% />
   </>
 </div>
 
@@ -19,7 +19,7 @@ Java, android, ios, get the same result by DES encryption and decryption.
 
 ```yaml
 dependencies:
-  dio: 1.0.0  #latest version
+  flutter_des: ^1.0.1  #latest version
 ```
 
 ### Example
