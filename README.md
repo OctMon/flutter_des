@@ -13,6 +13,11 @@ Java, android, ios, get the same result by DES encryption and decryption.
   </>
 </div>
 
+DES 
+Algorithm: CBC
+Operation: (android)PKCS5Padding (ios)kCCOptionPKCS7Padding
+http://tool.chacuo.net/cryptdes
+
 ## Getting Started
 
 ### Add dependency
