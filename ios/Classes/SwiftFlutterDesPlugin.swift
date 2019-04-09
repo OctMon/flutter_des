@@ -69,33 +69,37 @@ public class SwiftFlutterDesPlugin: NSObject, FlutterPlugin {
 private extension Data {
     
     func crypt(operation: CCOperation, key: String, iv: String) -> Data? {
-        let keyLength = Int(kCCKeySizeDES)
-        let dataLength = count
-        let cryptLength = Int(dataLength + kCCBlockSizeDES)
-        let cryptPointer = UnsafeMutablePointer<UInt8>.allocate(capacity: cryptLength)
-        let numBytesEncrypted = UnsafeMutablePointer<Int>.allocate(capacity: 1)
-        numBytesEncrypted.initialize(to: 0)
+        let algoritm = kCCAlgorithmDES
+        let options = kCCOptionPKCS7Padding
+        let keyData = [UInt8](key.data(using: .utf8) ?? Data())
+        let ivData = [UInt8](iv.data(using: .utf8) ?? Data())
+        let keyLength = kCCKeySizeDES
+        let dataIn = [UInt8](self)
+        let dataInLength = self.count
+        let dataOutAvailable = dataInLength + kCCBlockSizeDES
+        let dataOut = UnsafeMutablePointer<UInt8>.allocate(capacity: dataOutAvailable)
+        var dataOutMoved = 0
         
-        var keyBytes: UnsafePointer<Int8>?
-        key.data(using: .utf8)?.withUnsafeBytes { (bytes: UnsafePointer<Int8>) -> Void in
-            keyBytes = bytes
-        }
+        let cryptStatus = CCCrypt(
+            CCOperation(operation), //加密(解密)模式 kCCEncrypt:加密, kCCDecrypt:解密
+            CCAlgorithm(algoritm),  //加密(解密)方式
+            CCOptions(options),     //填充算法
+            keyData,                //密钥(超出密钥长度的部分将被忽略)
+            keyLength,              //密钥长度
+            ivData,                 //初始化向量
+            dataIn,                 //待加密(待解密)的数据
+            dataInLength,           //待加密(待解密)的数据长度
+            dataOut,                //将输出的已加密(已解密)数据的缓冲区
+            dataOutAvailable,       //将输出的已加密(已解密)数据的缓冲区长度
+            &dataOutMoved)          //将输出的已加密(已解密)数据的实际长度
         
-        var dataBytes: UnsafePointer<Int8>?
-        self.withUnsafeBytes { (bytes: UnsafePointer<CChar>) -> Void in
-            dataBytes = bytes
-        }
-        
-        let cryptStatus = CCCrypt(operation, CCAlgorithm(kCCAlgorithmDES), CCOptions(kCCOptionPKCS7Padding), keyBytes, keyLength, iv, dataBytes, dataLength, cryptPointer, cryptLength, numBytesEncrypted)
-        
-        if CCStatus(cryptStatus) == CCStatus(kCCSuccess) {
-            let len = Int(numBytesEncrypted.pointee)
-            let data = Data(bytes: cryptPointer, count: len)
-            numBytesEncrypted.deallocate()
-            return data
+        if cryptStatus == kCCSuccess {
+            let result = Data(bytes: dataOut, count: dataOutMoved)
+            dataOut.deallocate()
+            return result
         } else {
-            numBytesEncrypted.deallocate()
-            cryptPointer.deallocate()
+            print("\(#function) error = \(cryptStatus)")
+            dataOut.deallocate()
             return nil
         }
     }
