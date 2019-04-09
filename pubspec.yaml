@@ -1,6 +1,6 @@
 name: flutter_des
 description: Java, android, ios, get the same result by DES encryption and decryption.
-version: 0.0.1
+version: 1.0.0
 author: OctMon <octmon@qq.com>
 homepage: https://github.com/OctMon/flutter_des
 
