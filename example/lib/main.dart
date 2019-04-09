@@ -16,10 +16,12 @@ class _MyAppState extends State<MyApp> {
       "Java, android, ios, get the same result by DES encryption and decryption.";
   final _key = "u1BvOHzUOcklgNpn1MaWvdn9DT4LyzSX";
   final _iv = "12345678";
-  Uint8List _encryptData;
-  String _decryptData;
+  Uint8List _encrypt;
+  String _decrypt;
   String _encryptHex = '';
   String _decryptHex = '';
+  String _encryptBase64 = '';
+  String _decryptBase64 = '';
 
   @override
   void initState() {
@@ -30,10 +32,13 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     try {
+      _encrypt = await FlutterDes.encrypt(_string, _key, iv: _iv);
+      _decrypt = await FlutterDes.decrypt(_encrypt, _key, iv: _iv);
       _encryptHex = await FlutterDes.encryptToHex(_string, _key, iv: _iv);
-      _encryptData = await FlutterDes.encrypt(_string, _key, iv: _iv);
       _decryptHex = await FlutterDes.decryptFromHex(_encryptHex, _key, iv: _iv);
-      _decryptData = await FlutterDes.decrypt(_encryptData, _key, iv: _iv);
+      _encryptBase64 = await FlutterDes.encryptToBase64(_string, _key, iv: _iv);
+      _decryptBase64 =
+          await FlutterDes.decryptFromBase64(_encryptBase64, _key, iv: _iv);
       setState(() {});
     } catch (e) {
       print(e);
@@ -51,7 +56,7 @@ class _MyAppState extends State<MyApp> {
           padding: const EdgeInsets.all(15.0),
           child: Center(
             child: Text(
-                'string = $_string\nkey = $_key\niv = $_iv\nencryptData = $_encryptData\nencryptHex = $_encryptHex\ndecryptData = $_decryptData\ndecryptHex = $_decryptHex'),
+                'string = $_string\nkey = $_key\niv = $_iv\nencrypt = $_encrypt\nencryptToHex = $_encryptHex\nencryptToBase64 = $_encryptBase64\ndecrypt = $_decrypt\ndecryptFromHex = $_decryptHex\ndecryptFromBase64 = $_decryptBase64'),
           ),
         ),
       ),
