@@ -6,6 +6,13 @@
 
 Java, android, ios, get the same result by DES encryption and decryption.
 
+<div align="center">
+  <p>
+    <img src="https://github.com/OctMon/flutter_des/blob/assets/android.png" width = 30% height = 30% />
+    <img src="https://github.com/OctMon/flutter_des/blob/assets/ios.png" width = 30% height = 30% />
+  </>
+</div>
+
 ## Getting Started
 
 This project is a starting point for a Flutter
