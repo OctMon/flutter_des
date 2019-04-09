@@ -1,4 +1,5 @@
-![pub package](https://img.shields.io/pub/v/flutter_des.svg)
+[![Pub](https://img.shields.io/pub/v/flutter_des.svg?style=flat-square)](https://pub.dartlang.org/packages/flutter_des)
+[![support](https://img.shields.io/badge/platform-flutter-ff69b4.svg?style=flat-square)](https://github.com/OctMon/flutter_des)
 
 # flutter_des
 
