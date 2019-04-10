@@ -1,3 +1,7 @@
+## 1.1.0
+
+* fix iOS less than fifteen characters failed to decrypt
+
 ## 1.0.1
 
 * update README.md.
