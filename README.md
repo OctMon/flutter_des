@@ -1,6 +1,6 @@
 [![build status](https://travis-ci.org/OctMon/flutter_des.svg?style=flat-square)](https://travis-ci.org/OctMon/flutter_des)
 [![Pub](https://img.shields.io/pub/v/flutter_des.svg?style=flat-square)](https://pub.dartlang.org/packages/flutter_des)
-[![support](https://img.shields.io/badge/platform-flutter-ff69b4.svg?style=flat-square)](https://github.com/OctMon/flutter_des)
+[![support](https://img.shields.io/badge/platform-flutter-ff69b4.svg?style=flat-square)](https://github.com/OctMon/flutter_des) [![Join the chat at https://gitter.im/flutter_des/community](https://badges.gitter.im/flutter_des/community.svg)](https://gitter.im/flutter_des/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # flutter_des
 
