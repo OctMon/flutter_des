@@ -25,7 +25,7 @@ http://tool.chacuo.net/cryptdes
 
 ```yaml
 dependencies:
-  flutter_des: ^1.1.0  #latest version
+  flutter_des: ^1.1.1  #latest version
 ```
 
 ### Example
