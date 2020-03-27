@@ -127,7 +127,11 @@ private extension String {
     /// 16进制字符串转为Data
     var hexToData: Data {
         let bytes = hexToBytes
+        #if swift(>=4.2)
+        return Data(bytes)
+        #else
         return Data(bytes: bytes)
+        #endif
     }
     
     /// 16进制字符串转为 [UInt8]
