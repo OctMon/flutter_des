@@ -12,9 +12,9 @@ void main() {
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      String string = methodCall.arguments[0];
-      String key = methodCall.arguments[1];
-      String iv = methodCall.arguments[2];
+      String? string = methodCall.arguments[0];
+      String? key = methodCall.arguments[1];
+      String? iv = methodCall.arguments[2];
       switch (methodCall.method) {
         case 'encryptToHex':
           return '0A7233FC34EA762B933F41AA27A3614113A1AB6DD91515847526EE339B91A8F07B4C662CA613BC21778316C68B4517C946FB0DDAF16CB56BCD062877736A0FC18B8E65E9E09DC35D9B4727F4CEB33958';
