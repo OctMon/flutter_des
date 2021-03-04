@@ -1,3 +1,7 @@
+## 1.1.2
+
+* support nullsafety
+
 ## 1.1.1
 
 * support swift 5
