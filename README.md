@@ -11,6 +11,9 @@ Java, android, ios, get the same result by DES encryption and decryption.
     <img src="https://github.com/OctMon/flutter_des/blob/assets/android.png?raw=true" width = 37% />
     <img src="https://github.com/OctMon/flutter_des/blob/assets/ios.png?raw=true" width = 30.5% />
   </>
+  <p>
+    <img src="https://github.com/OctMon/flutter_des/blob/assets/macos.jpg?raw=true" width = 70.5% />
+  </>
 </div>
 
 DES 
@@ -24,7 +27,7 @@ http://tool.chacuo.net/cryptdes
 
 ```yaml
 dependencies:
-  flutter_des: ^2.0.0  #latest version
+  flutter_des: ^1.1.2  #latest version
 ```
 
 ### Example
