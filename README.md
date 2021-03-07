@@ -1,4 +1,3 @@
-[![build status](https://travis-ci.org/OctMon/flutter_des.svg)](https://travis-ci.org/OctMon/flutter_des)
 [![Pub](https://img.shields.io/pub/v/flutter_des.svg)](https://pub.dartlang.org/packages/flutter_des)
 [![support](https://img.shields.io/badge/platform-flutter-ff69b4.svg)](https://github.com/OctMon/flutter_des)
 [![build](https://github.com/OctMon/flutter_des/workflows/build/badge.svg)](https://github.com/OctMon/flutter_des/actions)
