@@ -33,6 +33,8 @@ flutter:
         pluginClass: FlutterDesPlugin
       ios:
         pluginClass: FlutterDesPlugin
+      macos:
+        pluginClass: FlutterDesPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
