@@ -1,0 +1,28 @@
+name: build
+
+on:
+  push:
+    branches: [ main, f-ci-action ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest]
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.0.1'
+      - run: dart --version
+      - run: flutter --version
+      - name: build flutter_des_example
+        working-directory: example
+        run: |
+          flutter build apk --target-platform android-arm64
+          flutter build ios --release --no-codesign
