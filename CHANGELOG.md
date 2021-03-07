@@ -1,6 +1,7 @@
-## 1.1.2
+## 2.0.0
 
 * support nullsafety
+* support macos
 
 ## 1.1.1
 
