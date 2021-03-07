@@ -34,7 +34,8 @@ class FlutterDes {
     if (string.isEmpty) {
       return '';
     }
-    final String crypt = base64Encode(await (encrypt(string, key, iv: iv) as FutureOr<List<int>>));
+    final String crypt = base64Encode(
+        await (encrypt(string, key, iv: iv) as FutureOr<List<int>>));
     return crypt;
   }
 
