@@ -1,3 +1,8 @@
+## 2.1.0
+
+* Support the Android V2 embedding
+* Update iOS MinimumOSVersion=9.0
+
 ## 2.0.0
 
 * support nullsafety
