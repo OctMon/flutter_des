@@ -1,10 +1,12 @@
 package octmon.flutter_des;
 
+import androidx.annotation.NonNull;
+
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
@@ -16,35 +18,46 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 
 /** FlutterDesPlugin */
-public class FlutterDesPlugin implements MethodCallHandler {
-  /** Plugin registration. */
-  public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_des");
-    channel.setMethodCallHandler(new FlutterDesPlugin());
+public class FlutterDesPlugin implements FlutterPlugin, MethodCallHandler {
+  /// The MethodChannel that will the communication between Flutter and native Android
+  ///
+  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
+  /// when the Flutter Engine is detached from the Activity
+  private MethodChannel channel;
+
+  @Override
+  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_des");
+    channel.setMethodCallHandler(this);
   }
 
   @Override
-  public void onMethodCall(MethodCall call, Result result) {
+  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     ArrayList arguments = (ArrayList) call.arguments;
     String key = (String) arguments.get(1);
     String iv = (String) arguments.get(2);
     switch (call.method) {
-        case "encrypt":
-            result.success(encrypt((String) arguments.get(0), key, iv));
-            break;
-        case "encryptToHex":
-            result.success(encryptToHex((String) arguments.get(0), key, iv));
-            break;
-        case "decrypt":
-            result.success(decrypt((byte[]) arguments.get(0), key, iv));
-            break;
-        case "decryptFromHex":
-            result.success(decryptFromHex((String) arguments.get(0), key, iv));
-            break;
-        default:
-            result.notImplemented();
-            break;
+      case "encrypt":
+        result.success(encrypt((String) arguments.get(0), key, iv));
+        break;
+      case "encryptToHex":
+        result.success(encryptToHex((String) arguments.get(0), key, iv));
+        break;
+      case "decrypt":
+        result.success(decrypt((byte[]) arguments.get(0), key, iv));
+        break;
+      case "decryptFromHex":
+        result.success(decryptFromHex((String) arguments.get(0), key, iv));
+        break;
+      default:
+        result.notImplemented();
+        break;
     }
+  }
+
+  @Override
+  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+    channel.setMethodCallHandler(null);
   }
 
   private static final String ALGORITHM_DES = "DES/CBC/PKCS5Padding";
