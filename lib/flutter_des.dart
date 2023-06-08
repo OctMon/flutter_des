@@ -35,7 +35,7 @@ class FlutterDes {
       return '';
     }
     final String crypt = base64Encode(
-        await (encrypt(string, key, iv: iv) as FutureOr<List<int>>));
+        await (encrypt(string, key, iv: iv)) ?? Uint8List.fromList([]));
     return crypt;
   }
 

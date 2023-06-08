@@ -18,12 +18,12 @@ class _MyAppState extends State<MyApp> {
   static const _key = "u1BvOHzUOcklgNpn1MaWvdn9DT4LyzSX";
   static const _iv = "12345678";
   TextEditingController _controller = TextEditingController();
-  Uint8List _encrypt;
-  String _decrypt = '';
-  String _encryptHex = '';
-  String _decryptHex = '';
+  Uint8List? _encrypt;
+  String? _decrypt = '';
+  String? _encryptHex = '';
+  String? _decryptHex = '';
   String _encryptBase64 = '';
-  String _decryptBase64 = '';
+  String? _decryptBase64 = '';
   String _text = _string;
 
   @override
@@ -51,7 +51,9 @@ class _MyAppState extends State<MyApp> {
     }
     try {
       _encrypt = await FlutterDes.encrypt(_text, _key, iv: _iv);
-      _decrypt = await FlutterDes.decrypt(_encrypt, _key, iv: _iv);
+      _decrypt = await FlutterDes.decrypt(
+          _encrypt ?? Uint8List.fromList([]), _key,
+          iv: _iv);
       _encryptHex = await FlutterDes.encryptToHex(_text, _key, iv: _iv);
       _decryptHex = await FlutterDes.decryptFromHex(_encryptHex, _key, iv: _iv);
       _encryptBase64 = await FlutterDes.encryptToBase64(_text, _key, iv: _iv);
@@ -95,11 +97,11 @@ class _MyAppState extends State<MyApp> {
                   label: Text(_iv),
                 ),
                 Divider(),
-                _build('Data', _encrypt == null ? '' : _encrypt.toString(), _decrypt == null ? '' : _decrypt),
+                _build('Data', _encrypt?.toString() ?? '', _decrypt ?? ''),
                 Divider(),
-                _build('Hex', _encryptHex, _decryptHex == null ? '' : _decryptHex),
+                _build('Hex', _encryptHex ?? '', _decryptHex ?? ''),
                 Divider(),
-                _build('Base64', _encryptBase64, _decryptBase64 == null ? '' : _decryptBase64),
+                _build('Base64', _encryptBase64, _decryptBase64 ?? ''),
                 Divider(),
               ],
             ),
