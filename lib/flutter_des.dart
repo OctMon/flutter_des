@@ -9,14 +9,13 @@ const String _iv = '01234567';
 class FlutterDes {
   static const MethodChannel _channel = const MethodChannel('flutter_des');
 
-  static Future<Uint8List> encrypt(String string, String key,
+  static Future<Uint8List?> encrypt(String string, String key,
       {String iv = _iv}) async {
     if (string.isEmpty) {
-      return Uint8List.fromList([]);
+      return null;
     }
     final Uint8List crypt =
-        (await _channel.invokeMethod('encrypt', [string, key, iv])) ??
-            Uint8List.fromList([]);
+        await _channel.invokeMethod('encrypt', [string, key, iv]);
     return crypt;
   }
 
@@ -35,7 +34,8 @@ class FlutterDes {
     if (string.isEmpty) {
       return '';
     }
-    final String crypt = base64Encode(await (encrypt(string, key, iv: iv)));
+    final String crypt = base64Encode(
+        await (encrypt(string, key, iv: iv)) ?? Uint8List.fromList([]));
     return crypt;
   }
 
