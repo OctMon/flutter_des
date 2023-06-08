@@ -14,7 +14,7 @@ class FlutterDes {
     if (string.isEmpty) {
       return null;
     }
-    final Uint8List crypt =
+    final Uint8List? crypt =
         await _channel.invokeMethod('encrypt', [string, key, iv]);
     return crypt;
   }
