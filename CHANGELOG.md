@@ -1,7 +1,11 @@
+## 2.3.0
+
+* Upgrade Flutter 3.24
+
 ## 2.2.0
 
 * Support Flutter 3.10
-* 
+
 ## 2.1.0
 
 * Support the Android V2 embedding
