@@ -1,4 +1,4 @@
-package octmon.flutter_des;
+package com.octmon.flutter_des;
 
 import androidx.annotation.NonNull;
 
@@ -76,7 +76,7 @@ public class FlutterDesPlugin implements FlutterPlugin, MethodCallHandler {
     if(encryptHexStr == null || iv == null)
       return null;
     try {
-        return decrypt(hex2byte(encryptHexStr.getBytes()), secretKey, iv);
+      return decrypt(hex2byte(encryptHexStr.getBytes()), secretKey, iv);
     } catch (Exception e){
       e.printStackTrace();
       return "";

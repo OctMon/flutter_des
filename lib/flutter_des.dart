@@ -1,20 +1,19 @@
-import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+
+import 'flutter_des_platform_interface.dart';
 
 const String _iv = '01234567';
 
 class FlutterDes {
-  static const MethodChannel _channel = const MethodChannel('flutter_des');
-
   static Future<Uint8List?> encrypt(String string, String key,
       {String iv = _iv}) async {
     if (string.isEmpty) {
       return null;
     }
     final Uint8List? crypt =
-        await _channel.invokeMethod('encrypt', [string, key, iv]);
+        await FlutterDesPlatform.instance.encrypt(string, key, iv: iv);
     return crypt;
   }
 
@@ -24,7 +23,7 @@ class FlutterDes {
       return '';
     }
     final String? crypt =
-        await _channel.invokeMethod('encryptToHex', [string, key, iv]);
+        await FlutterDesPlatform.instance.encryptToHex(string, key, iv: iv);
     return crypt;
   }
 
@@ -41,14 +40,14 @@ class FlutterDes {
   static Future<String?> decrypt(Uint8List data, String key,
       {String iv = _iv}) async {
     final String? crypt =
-        await _channel.invokeMethod('decrypt', [data, key, iv]);
+        await FlutterDesPlatform.instance.decrypt(data, key, iv: iv);
     return crypt;
   }
 
   static Future<String?> decryptFromHex(String? hex, String key,
       {String iv = _iv}) async {
     final String? crypt =
-        await _channel.invokeMethod('decryptFromHex', [hex, key, iv]);
+        await FlutterDesPlatform.instance.decryptFromHex(hex, key, iv: iv);
     return crypt;
   }
 

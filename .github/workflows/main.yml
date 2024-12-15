@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [ master, f-ci-action ]
+    branches: [ main, f-ci-action ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -25,8 +25,9 @@ jobs:
           channel: 'stable'
       - run: dart --version
       - run: flutter --version
-      - name: build flutter_des_example
+      - name: build flutter_des
         working-directory: example
         run: |
           flutter build apk --target-platform android-arm64
           flutter build ios --release --no-codesign
+          flutter build macos --release

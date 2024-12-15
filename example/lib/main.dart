@@ -1,23 +1,25 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter_des/flutter_des.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 const _string =
-    "Java, android, ios, get the same result by DES encryption and decryption.";
+    "Java, Android, iOS, macOS, get the same result by DES encryption and decryption.";
 
 class _MyAppState extends State<MyApp> {
   static const _key = "u1BvOHzUOcklgNpn1MaWvdn9DT4LyzSX";
   static const _iv = "12345678";
-  TextEditingController _controller = TextEditingController();
+  final _controller = TextEditingController();
   Uint8List? _encrypt;
   String? _decrypt = '';
   String? _encryptHex = '';
@@ -61,7 +63,9 @@ class _MyAppState extends State<MyApp> {
           await FlutterDes.decryptFromBase64(_encryptBase64, _key, iv: _iv);
       setState(() {});
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -71,7 +75,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: TextField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: _string,
             ),
             controller: _controller,
@@ -82,27 +86,27 @@ class _MyAppState extends State<MyApp> {
           child: Center(
             child: ListView(
               children: <Widget>[
-                Chip(
+                const Chip(
                   labelPadding: EdgeInsets.all(5),
                   avatar: CircleAvatar(
                     child: Text('key'),
                   ),
                   label: Text(_key),
                 ),
-                Chip(
+                const Chip(
                   avatar: CircleAvatar(
                     backgroundColor: Colors.red,
                     child: Text('iv'),
                   ),
                   label: Text(_iv),
                 ),
-                Divider(),
+                const Divider(),
                 _build('Data', _encrypt?.toString() ?? '', _decrypt ?? ''),
-                Divider(),
+                const Divider(),
                 _build('Hex', _encryptHex ?? '', _decryptHex ?? ''),
-                Divider(),
+                const Divider(),
                 _build('Base64', _encryptBase64, _decryptBase64 ?? ''),
-                Divider(),
+                const Divider(),
               ],
             ),
           ),
@@ -123,13 +127,13 @@ class _MyAppState extends State<MyApp> {
             child: Text(
               tag,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 15,
         ),
         Expanded(
@@ -140,7 +144,7 @@ class _MyAppState extends State<MyApp> {
                 softWrap: true,
                 maxLines: 100,
               ),
-              Divider(),
+              const Divider(),
               Text(
                 result,
                 softWrap: true,

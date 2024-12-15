@@ -2,21 +2,27 @@ PODS:
   - Flutter (1.0.0)
   - flutter_des (0.0.1):
     - Flutter
+  - integration_test (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_des (from `.symlinks/plugins/flutter_des/ios`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
   flutter_des:
     :path: ".symlinks/plugins/flutter_des/ios"
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_des: af0bb83f27f1468ad652d907958b1d42d5644544
+  flutter_des: 312c5dd7119881b916bd378a0433df8a82664817
+  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
 
-PODFILE CHECKSUM: c4c93c5f6502fe2754f48404d3594bf779584011
+PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
 COCOAPODS: 1.16.2

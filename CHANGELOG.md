@@ -1,3 +1,7 @@
+## 3.0.0
+
+* refactor code
+
 ## 2.3.0
 
 * Upgrade Flutter 3.24

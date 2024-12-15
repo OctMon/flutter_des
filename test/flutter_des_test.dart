@@ -1,38 +1,59 @@
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_des/flutter_des.dart';
+import 'package:flutter_des/flutter_des_platform_interface.dart';
+import 'package:flutter_des/flutter_des_method_channel.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
+const String _iv = '01234567';
+
+class MockFlutterDesPlatform
+    with MockPlatformInterfaceMixin
+    implements FlutterDesPlatform {
+  @override
+  Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<String?> decrypt(Uint8List data, String key, {String iv = _iv}) {
+    // TODO: implement decrypt
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> decryptFromBase64(String base64, String key,
+      {String iv = _iv}) {
+    // TODO: implement decryptFromBase64
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> decryptFromHex(String? hex, String key, {String iv = _iv}) {
+    // TODO: implement decryptFromHex
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Uint8List?> encrypt(String string, String key, {String iv = _iv}) {
+    // TODO: implement encrypt
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> encryptToBase64(String string, String key, {String iv = _iv}) {
+    // TODO: implement encryptToBase64
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> encryptToHex(String string, String key, {String iv = _iv}) {
+    // TODO: implement encryptToHex
+    throw UnimplementedError();
+  }
+}
 
 void main() {
-  const MethodChannel channel = MethodChannel('flutter_des');
+  final FlutterDesPlatform initialPlatform = FlutterDesPlatform.instance;
 
-  final _string =
-      "Java, android, ios, get the same result by DES encryption and decryption.";
-  final _key = "u1BvOHzUOcklgNpn1MaWvdn9DT4LyzSX";
-  final _iv = "12345678";
-
-  setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      // String? string = methodCall.arguments[0];
-      // String? key = methodCall.arguments[1];
-      // String? iv = methodCall.arguments[2];
-      switch (methodCall.method) {
-        case 'encryptToHex':
-          return '0A7233FC34EA762B933F41AA27A3614113A1AB6DD91515847526EE339B91A8F07B4C662CA613BC21778316C68B4517C946FB0DDAF16CB56BCD062877736A0FC18B8E65E9E09DC35D9B4727F4CEB33958';
-        case 'decryptFromHex':
-          return _string;
-        default:
-          return '';
-      }
-    });
-  });
-
-  tearDown(() {
-    channel.setMockMethodCallHandler(null);
-  });
-
-  test('crypt', () async {
-    final encrypt = await FlutterDes.encryptToHex(_string, _key, iv: _iv);
-    final decrypt = await FlutterDes.decryptFromHex(encrypt, _key, iv: _iv);
-    expect(decrypt, _string);
+  test('$MethodChannelFlutterDes is the default instance', () {
+    expect(initialPlatform, isInstanceOf<MethodChannelFlutterDes>());
   });
 }

@@ -4,7 +4,7 @@
 
 # flutter_des
 
-Java, android, ios, get the same result by DES encryption and decryption.
+Java, Android, iOS, macOS, get the same result by DES encryption and decryption.
 
 <div >
   <p>
@@ -36,7 +36,7 @@ dependencies:
 import 'package:flutter_des/flutter_des.dart';
 
 void example() async {
-  const string = "Java, android, ios, get the same result by DES encryption and decryption.";
+  const string = "Java, Android, iOS, macOS, get the same result by DES encryption and decryption.";
   const key = "u1BvOHzUOcklgNpn1MaWvdn9DT4LyzSX";
   const iv = "12345678";
 

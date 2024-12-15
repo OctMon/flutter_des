@@ -2,14 +2,13 @@ import Flutter
 import UIKit
 import CommonCrypto
 
-public class SwiftFlutterDesPlugin: NSObject, FlutterPlugin {
-    
+public class FlutterDesPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "flutter_des", binaryMessenger: registrar.messenger())
-        let instance = SwiftFlutterDesPlugin()
+        let instance = FlutterDesPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
-    
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let arguments = call.arguments as? [Any] ?? []
         guard arguments.count > 2 else {
@@ -36,38 +35,38 @@ public class SwiftFlutterDesPlugin: NSObject, FlutterPlugin {
             break
         }
     }
-    
+
     func encryptToHex(string: String, key: String, iv: String, result: FlutterResult) {
         result(encrypt(string: string, key: key, iv: iv)?.toHexString)
     }
-    
+
     func encrypt(string: String, key: String, iv: String, result: FlutterResult) {
         result(encrypt(string: string, key: key, iv: iv))
     }
-    
+
     func encrypt(string: String, key: String, iv: String) -> Data? {
         return string.data(using: .utf8)?.crypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv)
     }
-    
+
     func decryptFromHex(string: String, key: String, iv: String, result: FlutterResult) {
         result(decrypt(data: string.hexToData, key: key, iv: iv))
     }
-    
+
     func decrypt(data: Data, key: String, iv: String, result: FlutterResult) {
        result(decrypt(data: data, key: key, iv: iv))
     }
-    
+
     func decrypt(data: Data, key: String, iv: String) -> String? {
         guard let data = data.crypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv) else {
             return nil
         }
         return String(data: data, encoding: .utf8)
     }
-    
+
 }
 
 private extension Data {
-    
+
     func crypt(operation: CCOperation, key: String, iv: String) -> Data? {
         let algorithm = kCCAlgorithmDES
         let options = kCCOptionPKCS7Padding
@@ -79,7 +78,7 @@ private extension Data {
         let dataOutAvailable = dataInLength + kCCBlockSizeDES
         let dataOut = UnsafeMutablePointer<UInt8>.allocate(capacity: dataOutAvailable)
         var dataOutMoved = 0
-        
+
         let cryptStatus = CCCrypt(
             CCOperation(operation), //加密(解密)模式 kCCEncrypt:加密, kCCDecrypt:解密
             CCAlgorithm(algorithm),  //加密(解密)方式
@@ -92,7 +91,7 @@ private extension Data {
             dataOut,                //将输出的已加密(已解密)数据的缓冲区
             dataOutAvailable,       //将输出的已加密(已解密)数据的缓冲区长度
             &dataOutMoved)          //将输出的已加密(已解密)数据的实际长度
-        
+
         if cryptStatus == kCCSuccess {
             let result = Data(bytes: dataOut, count: dataOutMoved)
             dataOut.deallocate()
@@ -103,27 +102,27 @@ private extension Data {
             return nil
         }
     }
-    
+
 }
 
 private extension Data {
-    
+
     var toHexString: String {
         return toHexString()
     }
-    
+
     var toHexLowercasedString: String {
         return toHexString(isLowercased: true)
     }
-    
+
     private func toHexString(isLowercased: Bool = false) -> String {
         return map { String(format: "%02\(isLowercased ? "x" : "X")", $0) }.joined(separator: "")
     }
-    
+
 }
 
 private extension String {
-    
+
     /// 16进制字符串转为Data
     var hexToData: Data {
         let bytes = hexToBytes
@@ -133,7 +132,7 @@ private extension String {
         return Data(bytes: bytes)
         #endif
     }
-    
+
     /// 16进制字符串转为 [UInt8]
     var hexToBytes: [UInt8] {
         assert(count % 2 == 0, "输入字符串格式不对，8位代表一个字符")
@@ -167,5 +166,5 @@ private extension String {
         }
         return bytes
     }
-    
+
 }
